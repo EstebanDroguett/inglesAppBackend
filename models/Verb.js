@@ -67,7 +67,8 @@ const VerbSchema = Schema({
 },
     {
         timestamps: true,
-        versionKey: false
+        versionKey: false,
+        paranoid: true
     });
 
 // Para ver el _id como id y no mostrar la versión

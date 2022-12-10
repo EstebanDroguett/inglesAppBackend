@@ -1,15 +1,14 @@
 /*
 Rutas de Usuarios / Auth
-host + /api/words
+host + /api/roles
 */
 
 //------------------------------------------------------------------------------------13----------------------------------------------------------------------------------
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { validateFields } = require('../middelwares/validate-fields');
-const { getWords, createWord, updateWord, deleteWord } = require('../controllers/words');
+const { getRoles, createRole, deleteRole } = require('../controllers/roles');
 const { validateJWT } = require('../middelwares/validate-jwt');
-const { isAdmin, isModerator } = require('../middelwares/roles');
 
 const router = Router();
 
@@ -17,28 +16,19 @@ const router = Router();
 router.use(validateJWT);
 
 
-//Obtener Palabras
-router.get('/', getWords);
+//Obtener Roles
+router.get('/', getRoles);
 
 //Crear
 router.post('/',
     [
-        check('word', 'La palabra es obligatoria.').not().isEmpty(),
-        check('meaning', 'El significado es obligatorio.').not().isEmpty(),
+        check('name', 'El rol es obligatorio').not().isEmpty(),
         validateFields
     ],
-    createWord);
-
-//Actualizar 
-router.put('/:id',
-    [
-        check('word', 'La palabra es obligatoria.').not().isEmpty(),
-        check('meaning', 'El significado es obligatorio.').not().isEmpty(),
-        validateFields
-    ], updateWord);
+    createRole);
 
 //Borrar 
-router.delete('/:id', [isAdmin, isModerator], deleteWord);
+router.delete('/:id', deleteRole);
 
 module.exports = router;
 //------------------------------------------------------------------------------------13----------------------------------------------------------------------------------

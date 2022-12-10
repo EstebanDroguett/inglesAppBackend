@@ -20,13 +20,15 @@ const UserSchema = Schema({
         required: true
     },
     role: {
-        type: String,
-        default: 'user'
+        type: Schema.Types.ObjectId,
+        reference: 'Role',
+        required: true,
     },
 },
     {
         timestamps: true,
-        versionKey: false
+        versionKey: false,
+        paranoid: true
     }
 );
 

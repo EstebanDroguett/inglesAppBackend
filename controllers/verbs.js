@@ -96,13 +96,6 @@ const deleteVerb = async (req, res = response) => {
             });
         }
 
-        if (verb.user.toString() !== _id) {
-            return res.status(401).json({
-                ok: false,
-                msg: 'No tiene privilegio de eliminar este verbo.'
-            });
-        }
-
         await Verb.findByIdAndDelete(verbId);
 
         res.json({

@@ -9,6 +9,7 @@ const { check } = require('express-validator');
 const { validateFields } = require('../middelwares/validate-fields');
 const { getVerbs, createVerb, updateVerb, deleteVerb } = require('../controllers/verbs');
 const { validateJWT } = require('../middelwares/validate-jwt');
+const { isAdmin, isModerator } = require('../middelwares/roles');
 
 const router = Router();
 
@@ -61,7 +62,7 @@ router.put('/:id',
     ], updateVerb);
 
 //Borrar 
-router.delete('/:id', deleteVerb);
+router.delete('/:id',[isAdmin, isModerator], deleteVerb);
 
 module.exports = router;
 //------------------------------------------------------------------------------------13----------------------------------------------------------------------------------

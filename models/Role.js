@@ -7,7 +7,8 @@ const RoleSchema = Schema({
     },
 },
     {
-        versionKey: false
+        versionKey: false,
+        paranoid: true
     }
 );
 

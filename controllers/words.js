@@ -96,13 +96,6 @@ const deleteWord = async (req, res = response) => {
             });
         }
 
-        if (word.user.toString() !== _id) {
-            return res.status(401).json({
-                ok: false,
-                msg: 'No tiene privilegio de eliminar esta palabra'
-            });
-        }
-
         await Word.findByIdAndDelete(wordId);
 
         res.json({

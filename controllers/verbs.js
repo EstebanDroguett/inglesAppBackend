@@ -83,7 +83,6 @@ const updateVerb = async (req, res = response) => {
 const deleteVerb = async (req, res = response) => {
 
     const verbId = req.params.id;
-    const _id = req._id;
 
     try {
 

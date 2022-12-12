@@ -1,20 +1,14 @@
 const Role = require('../models/Role');
 
-const getRoles = async (req, res) =>{
-  try{
-  
-    const roles = await Role.findAll();
+const getRoles = async (req, res) => {
 
-    return res.status(200).json({
-      message: 'Get all roles',
-      data: roles
+    const roles = await Role.find()
+        .populate('name');
+
+    res.status(201).json({
+        ok: true,
+        roles
     })
-  }catch(err){
-    return res.status(500).json({
-      message: 'Bad request',
-      error: err.message
-    })
-  }
 };
 
 const createRole = async (req, res = response) => {
@@ -22,7 +16,7 @@ const createRole = async (req, res = response) => {
     const role = new Role(req.body);
 
     try {
-        role.user = req._id;
+        role.role = req._id;
 
         const saveRole = await role.save();
 
@@ -37,6 +31,50 @@ const createRole = async (req, res = response) => {
             ok: false,
             msg: 'Hable con el administrador.'
         })
+    }
+}
+
+const updateRole = async (req, res = response) => {
+
+    const roleId = req.params.id;
+    const _id = req._id;
+
+    try {
+
+        const role = await Role.findById(roleId);
+
+        if (!role) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'Este usuario no existe por ese id.'
+            });
+        }
+
+        if (role.role.toString() !== _id) {
+            return res.status(401).json({
+                ok: false,
+                msg: 'No tiene privilegio de editar este rol.'
+            });
+        }
+
+        const newRole = {
+            ...req.body,
+            role: _id
+        }
+
+        const updateRole = await Role.findByIdAndUpdate(roleId, newRole, { new: true });
+
+        res.json({
+            ok: true,
+            role: updateRole
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador.'
+        });
     }
 }
 
@@ -56,7 +94,7 @@ const deleteRole = async (req, res = response) => {
             });
         }
 
-        if (role.user.toString() !== _id) {
+        if (role.role.toString() !== _id) {
             return res.status(401).json({
                 ok: false,
                 msg: 'No tiene privilegio de eliminar este rol.'
@@ -78,4 +116,4 @@ const deleteRole = async (req, res = response) => {
     }
 }
 
-module.exports = {getRoles, createRole, deleteRole}
+module.exports = { getRoles, createRole, updateRole, deleteRole }

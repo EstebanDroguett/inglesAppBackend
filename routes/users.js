@@ -1,13 +1,13 @@
 /*
 Rutas de Usuarios / Auth
-host + /api/roles
+host + /api/users
 */
 
 //------------------------------------------------------------------------------------13----------------------------------------------------------------------------------
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { validateFields } = require('../middelwares/validate-fields');
-const { getRoles, createRole, updateRole, deleteRole } = require('../controllers/roles');
+const { getUsers, createUser, updateUser, deleteUser } = require('../controllers/users');
 const { validateJWT } = require('../middelwares/validate-jwt');
 const { isAdmin } = require('../middelwares/roles');
 
@@ -17,27 +17,28 @@ const router = Router();
 router.use(validateJWT);
 
 
-//Obtener Roles
-router.get('/', [isAdmin], getRoles);
+//Obtener Palabras
+router.get('/', getUsers);
 
 //Crear
 router.post('/',
     [
-        check('name', 'El rol es obligatorio.').not().isEmpty(),
+        check('user', 'El usuario es obligatorio.').not().isEmpty(),
+        check('meaning', 'El significado es obligatorio.').not().isEmpty(),
         validateFields
     ],
-    [isAdmin], createRole);
+    createUser);
 
 //Actualizar 
 router.put('/:id',
     [
-        check('name', 'El rol es obligatorio.').not().isEmpty(),
-
+        check('user', 'El usuario es obligatorio.').not().isEmpty(),
+        check('meaning', 'El significado es obligatorio.').not().isEmpty(),
         validateFields
-    ], [isAdmin], updateRole);
+    ], updateUser);
 
 //Borrar 
-router.delete('/:id', [isAdmin], deleteRole);
+router.delete('/:id', [isAdmin], deleteUser);
 
 module.exports = router;
 //------------------------------------------------------------------------------------13----------------------------------------------------------------------------------

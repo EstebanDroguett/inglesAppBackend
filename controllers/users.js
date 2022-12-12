@@ -1,30 +1,30 @@
 //------------------------------------------------------------------------------------14----------------------------------------------------------------------------------
 const { response } = require('express');
-const Word = require('../models/Word');
+const User = require('../models/User');
 
-const getWords = async (req, res = response) => {
+const getUsers = async (req, res = response) => {
 
-    const words = await Word.find()
+    const users = await User.find()
         .populate('user', 'name');
 
     res.status(201).json({
         ok: true,
-        words
+        users
     })
 }
 
-const createWord = async (req, res = response) => {
+const createUser = async (req, res = response) => {
 
-    const word = new Word(req.body);
+    const user = new User(req.body);
 
     try {
-        word.user = req._id;
+        user.user = req._id;
 
-        const saveWord = await word.save();
+        const saveUser = await user.save();
 
         res.json({
             ok: true,
-            word: saveWord
+            user: saveUser
         })
 
     } catch (error) {
@@ -36,39 +36,39 @@ const createWord = async (req, res = response) => {
     }
 }
 
-const updateWord = async (req, res = response) => {
+const updateUser = async (req, res = response) => {
 
-    const wordId = req.params.id;
+    const userId = req.params.id;
     const _id = req._id;
 
     try {
 
-        const word = await Word.findById(wordId);
+        const user = await User.findById(userId);
 
-        if (!word) {
+        if (!user) {
             return res.status(404).json({
                 ok: false,
-                msg: 'Esta palabra no existe por ese id.'
+                msg: 'Este usuario no existe por ese id.'
             });
         }
 
-        if (word.user.toString() !== _id) {
+        if (user.user.toString() !== _id) {
             return res.status(401).json({
                 ok: false,
-                msg: 'No tiene privilegio de editar esta palabra.'
+                msg: 'No tiene privilegio de editar este usuario.'
             });
         }
 
-        const newWord = {
+        const newUser = {
             ...req.body,
             user: _id
         }
 
-        const updateWord = await Word.findByIdAndUpdate(wordId, newWord, { new: true });
+        const updateUser = await User.findByIdAndUpdate(userId, newUser, { new: true });
 
         res.json({
             ok: true,
-            word: updateWord
+            user: updateUser
         })
 
     } catch (error) {
@@ -80,22 +80,30 @@ const updateWord = async (req, res = response) => {
     }
 }
 
-const deleteWord = async (req, res = response) => {
+const deleteUser = async (req, res = response) => {
 
-    const wordId = req.params.id;
+    const userId = req.params.id;
+    const _id = req._id;
 
     try {
 
-        const word = await Word.findById(wordId);
+        const user = await User.findById(userId);
 
-        if (!word) {
+        if (!user) {
             return res.status(404).json({
                 ok: false,
-                msg: 'Esta palabra no existe por ese id.'
+                msg: 'Este usuario no existe por ese id.'
             });
         }
 
-        await Word.findByIdAndDelete(wordId);
+        if (user.user.toString() !== _id) {
+            return res.status(401).json({
+                ok: false,
+                msg: 'No tiene privilegio de eliminar este evento'
+            });
+        }
+
+        await User.findByIdAndDelete(userId);
 
         res.json({
             ok: true
@@ -111,9 +119,9 @@ const deleteWord = async (req, res = response) => {
 }
 
 module.exports = {
-    getWords,
-    createWord,
-    updateWord,
-    deleteWord
+    getUsers,
+    createUser,
+    updateUser,
+    deleteUser
 }
 //------------------------------------------------------------------------------------14----------------------------------------------------------------------------------

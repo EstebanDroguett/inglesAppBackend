@@ -27,9 +27,10 @@ app.use(express.json());
 //------------------------------------------------------------------------------------3----------------------------------------------------------------------------------
 app.use('/api/auth', require('./routes/auth'));
 //------------------------------------------------------------------------------------3----------------------------------------------------------------------------------
-app.use('/api/words', require('./routes/words'));
-app.use('/api/verbs', require('./routes/verbs'));
 app.use('/api/roles', require('./routes/roles'));
+app.use('/api/users', require('./routes/users'));
+app.use('/api/verbs', require('./routes/verbs'));
+app.use('/api/words', require('./routes/words'));
 //------------------------------------------------------------------------------------1----------------------------------------------------------------------------------
 
 //Al recargar la página ya en deploy, ésta no tendra problemas en recibir el url correspondiente

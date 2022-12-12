@@ -4,8 +4,7 @@ const Word = require('../models/Word');
 
 const getWords = async (req, res = response) => {
 
-    const words = await Word.find()
-        .populate('user', 'name');
+    const words = await Word.find();
 
     res.status(201).json({
         ok: true,

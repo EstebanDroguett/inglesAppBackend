@@ -4,19 +4,32 @@ const jwt = require('jsonwebtoken');
 
 const validateJWT = (req, res = response, next) => {
 
-    //x-token headers
-    const token = req.header('x-token');
-
-    if (!token) {
+    if( !req.headers['authorization'] ){
         return res.status(401).json({
-            ok: false,
-            msg: 'No hay token en la petición'
+          message:'Authorization header not present',
+          error: 'Authorization'
         });
-    }
-
+      }
+    
+      const authorizationHeader = req.headers['authorization'];
+      const [type, accessToken] = authorizationHeader.split(' ');
+    
+      if( type !== 'Bearer' ){
+        return res.status(401).json({
+          message:'Wrong Authorization header type given',
+          error: 'Authorization'
+        });
+      }
+    
+      if( !accessToken ){
+        return res.status(401).json({
+          message:'Access token not present',
+          error: 'Authorization'
+        })
+      }
     try {
         const { _id, name } = jwt.verify(
-            token,
+            accessToken,
             process.env.SECRET_JWT_SEED
         );
 

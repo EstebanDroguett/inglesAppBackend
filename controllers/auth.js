@@ -11,7 +11,7 @@ const { generateJWT } = require('../helpers/jwt');
 //------------------------------------------------------------------------------------4----------------------------------------------------------------------------------
 const { response } = require('express');
 
-const createUser = async (req, res = response) => {
+const registerUser = async (req, res = response) => {
 
     const { email, password } = (req.body); 
     const role = await Role.findOne({name:'user'}); //Setea por defecto al usuario el rol de user.
@@ -118,7 +118,7 @@ const revalidateToken = async (req, res = response) => {
 }
 
 module.exports = {
-    createUser,
+    registerUser,
     loginUser,
     revalidateToken
 }

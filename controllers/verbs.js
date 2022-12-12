@@ -4,8 +4,7 @@ const Verb = require('../models/Verb');
 
 const getVerbs = async (req, res = response) => {
 
-    const verbs = await Verb.find()
-        .populate('user', 'name');
+    const verbs = await Verb.find();
 
     res.status(201).json({
         ok: true,

@@ -2,9 +2,7 @@
 const { Schema, model } = require('mongoose');
 
 const RoleSchema = Schema({
-    name: {
-        type: String,
-    },
+    name: String,
 },
     {
         versionKey: false,

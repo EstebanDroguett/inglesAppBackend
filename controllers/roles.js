@@ -2,8 +2,7 @@ const Role = require('../models/Role');
 
 const getRoles = async (req, res) => {
 
-    const roles = await Role.find()
-        .populate('name');
+    const roles = await Role.find();
 
     res.status(201).json({
         ok: true,
@@ -13,10 +12,11 @@ const getRoles = async (req, res) => {
 
 const createRole = async (req, res = response) => {
 
-    const role = new Role(req.body);
+    const {name} = req.body;
+    const role = new Role({name});
 
     try {
-        role.role = req._id;
+        role.userId = req._id;
 
         const saveRole = await role.save();
 

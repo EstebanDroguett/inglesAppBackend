@@ -18,7 +18,7 @@ router.use(validateJWT);
 
 
 //Obtener Roles
-router.get('/', [isAdmin], getRoles);
+router.get('/', isAdmin, getRoles);
 
 //Crear
 router.post('/',
@@ -26,7 +26,7 @@ router.post('/',
         check('name', 'El rol es obligatorio.').not().isEmpty(),
         validateFields
     ],
-    [isAdmin], createRole);
+    isAdmin, createRole);
 
 //Actualizar 
 router.put('/:id',
@@ -34,10 +34,10 @@ router.put('/:id',
         check('name', 'El rol es obligatorio.').not().isEmpty(),
 
         validateFields
-    ], [isAdmin], updateRole);
+    ], isAdmin, updateRole);
 
 //Borrar 
-router.delete('/:id', [isAdmin], deleteRole);
+router.delete('/:id', isAdmin, deleteRole);
 
 module.exports = router;
 //------------------------------------------------------------------------------------13----------------------------------------------------------------------------------

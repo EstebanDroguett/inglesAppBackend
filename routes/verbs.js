@@ -62,7 +62,7 @@ router.put('/:id',
     ], updateVerb);
 
 //Borrar 
-router.delete('/:id',[isAdmin, isModerator], deleteVerb);
+router.delete('/:id',[isAdmin, isModerator], deleteVerb); // Cuando son multiples roles, se colocan en conrchetes
 
 module.exports = router;
 //------------------------------------------------------------------------------------13----------------------------------------------------------------------------------

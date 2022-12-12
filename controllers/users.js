@@ -4,35 +4,30 @@ const User = require('../models/User');
 
 const getUsers = async (req, res = response) => {
 
-    const users = await User.find()
-        .populate('user', 'name');
-
-    res.status(201).json({
-        ok: true,
-        users
-    })
-}
-
-const createUser = async (req, res = response) => {
-
-    const user = new User(req.body);
-
     try {
-        user.user = req._id;
-
-        const saveUser = await user.save();
-
-        res.json({
+        const users = await User.find({}, '_id name lastName email role createdAt updatedAt').populate('role');
+    
+        res.status(201).json({
             ok: true,
-            user: saveUser
-        })
-
+            users
+        });        
     } catch (error) {
         console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Hable con el administrador.'
-        })
+    }
+}
+
+const getOneUsers = async (req, res = response) => {
+
+    try {
+        const id = req.params.id;
+        const users = await User.findById(id, '_id name lastName email role createdAt updatedAt').populate('role');
+    
+        res.status(201).json({
+            ok: true,
+            users
+        });
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -120,7 +115,7 @@ const deleteUser = async (req, res = response) => {
 
 module.exports = {
     getUsers,
-    createUser,
+    getOneUsers,
     updateUser,
     deleteUser
 }

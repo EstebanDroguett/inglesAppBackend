@@ -7,7 +7,9 @@ const isAdmin = async (req, res, next) => {
         //console.log({User});
 
         const user = await User.findById(_id);
+        //console.log({user})
         const role = await Role.findById(user.role);
+        //console.log({role})
 
         if(role.name !== 'admin'){
             return res.status(403).json({

@@ -26,8 +26,11 @@ router.get('/:id', getOneUsers);
 //Actualizar 
 router.put('/:id',
     [
-        check('user', 'El usuario es obligatorio.').not().isEmpty(),
-        check('meaning', 'El significado es obligatorio.').not().isEmpty(),
+        check('name', 'El nombres obligatorio.').not().isEmpty(),
+        check('lastName', 'El apellido es obligatorio.').not().isEmpty(),
+        check('email', 'El correo es obligatorio.').not().isEmpty(),
+        check('password', 'La contraseña es obligatoria.').not().isEmpty(),
+        check('role', 'El rol es obligatoria.').not().isEmpty(),
         validateFields
     ], updateUser);
 

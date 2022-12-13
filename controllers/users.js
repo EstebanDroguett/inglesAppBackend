@@ -34,7 +34,7 @@ const getOneUsers = async (req, res = response) => {
 const updateUser = async (req, res = response) => {
 
     const userId = req.params.id;
-    const _id = req._id;
+    //const _id = req._id;
 
     try {
 
@@ -47,12 +47,12 @@ const updateUser = async (req, res = response) => {
             });
         }
 
-        if (user.user.toString() !== _id) {
+        /*if (user.user.toString() !== _id) {
             return res.status(401).json({
                 ok: false,
                 msg: 'No tiene privilegio de editar este usuario.'
             });
-        }
+        }*/
 
         const newUser = {
             ...req.body,
@@ -78,7 +78,7 @@ const updateUser = async (req, res = response) => {
 const deleteUser = async (req, res = response) => {
 
     const userId = req.params.id;
-    const _id = req._id;
+    //const _id = req._id;
 
     try {
 
@@ -91,12 +91,12 @@ const deleteUser = async (req, res = response) => {
             });
         }
 
-        if (user.user.toString() !== _id) {
+        /*if (user.user.toString() !== _id) {
             return res.status(401).json({
                 ok: false,
                 msg: 'No tiene privilegio de eliminar este evento'
             });
-        }
+        }*/
 
         await User.findByIdAndDelete(userId);
 

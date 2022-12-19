@@ -34,11 +34,12 @@ const getOneUsers = async (req, res = response) => {
 const updateUser = async (req, res = response) => {
 
     const userId = req.params.id;
-    //const _id = req._id;
+    const _id = req._id; //Almacena el id del usuario logueado
 
     try {
 
-        const user = await User.findById(userId);
+        const user = await User.findById(userId); //Usuario que se quiere modificar
+        const userLogged = await User.findById(_id); //Usuario logueado
 
         if (!user) {
             return res.status(404).json({
@@ -47,12 +48,16 @@ const updateUser = async (req, res = response) => {
             });
         }
 
-        /*if (user.user.toString() !== _id) {
+        const loggedRole = userLogged.role.toString();
+        //console.log(userId, _id)
+        //console.log(loggedRole, '6394dccf474e3e52e12b4958')
+
+        if (userId !== _id && loggedRole !== '6394dccf474e3e52e12b4958') { //
             return res.status(401).json({
                 ok: false,
                 msg: 'No tiene privilegio de editar este usuario.'
             });
-        }*/
+        } 
 
         const newUser = {
             ...req.body,
@@ -78,11 +83,12 @@ const updateUser = async (req, res = response) => {
 const deleteUser = async (req, res = response) => {
 
     const userId = req.params.id;
-    //const _id = req._id;
+    const _id = req._id;
 
     try {
 
         const user = await User.findById(userId);
+        const userLogged = await User.findById(_id); //Usuario logueado
 
         if (!user) {
             return res.status(404).json({
@@ -91,12 +97,14 @@ const deleteUser = async (req, res = response) => {
             });
         }
 
-        /*if (user.user.toString() !== _id) {
+        const loggedRole = userLogged.role.toString();
+
+        if (loggedRole !== '6394dccf474e3e52e12b4958') {
             return res.status(401).json({
                 ok: false,
                 msg: 'No tiene privilegio de eliminar este evento'
             });
-        }*/
+        }
 
         await User.findByIdAndDelete(userId);
 

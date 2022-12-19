@@ -5,7 +5,7 @@ const WordSchema = Schema({
 
     word: {
         type: String,
-        required: true,
+        required: true
     },
     meaning: {
         type: String,

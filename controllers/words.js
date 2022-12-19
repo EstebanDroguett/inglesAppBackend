@@ -19,6 +19,15 @@ const createWord = async (req, res = response) => {
     try {
         word.user = req._id;
 
+        const verifyWord = await Word.findOne({ word });
+
+        if(verifyWord){
+            return res.status(400).json({
+                ok: false,
+                msg: 'Esta palabra ya existe.'
+            })
+        }
+
         const saveWord = await word.save();
 
         res.json({

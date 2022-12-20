@@ -14,21 +14,25 @@ const getWords = async (req, res = response) => {
 
 const createWord = async (req, res = response) => {
 
-    const word = new Word(req.body);
-
     try {
-        word.user = req._id;
-
+        //Destructuración de objeto req.body para obtener campos de word y meaning en bruto
+        const { word, meaning } = req.body;
+        //Configuración de variable la cual guarda el id del usuario logeado
+        const user = req._id;
+        //El find  lo hace por la palabra en bruto, ya que se tiene el string puro y no por todo el objeto
         const verifyWord = await Word.findOne({ word });
+        //expRegText = /^\s+$/;
 
-        if(verifyWord){
-            return res.status(400).json({
-                ok: false,
-                msg: 'Esta palabra ya existe.'
-            })
-        }
+        //if(expRegText.test(word)){
+        if (verifyWord) {
+                return res.status(400).json({
+                    ok: false,
+                    msg: 'Esta palabra ya existe.'
+                })
+            }
+        //}
 
-        const saveWord = await word.save();
+        const saveWord = await Word.create({ word, meaning, user });
 
         res.json({
             ok: true,

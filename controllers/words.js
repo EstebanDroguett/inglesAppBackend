@@ -12,6 +12,21 @@ const getWords = async (req, res = response) => {
     })
 }
 
+const getOneWords = async (req, res = response) => {
+
+    try {
+        const id = req.params.id;
+        const words = await Word.findById(id, '_id name meaning user');
+    
+        res.status(201).json({
+            ok: true,
+            words
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 const createWord = async (req, res = response) => {
 
     try {
@@ -124,6 +139,7 @@ const deleteWord = async (req, res = response) => {
 
 module.exports = {
     getWords,
+    getOneWords,
     createWord,
     updateWord,
     deleteWord
